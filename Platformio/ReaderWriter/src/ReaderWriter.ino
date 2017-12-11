@@ -1,9 +1,9 @@
-
 #include "Atlasbuggy.h"
 
 Atlasbuggy robot("my_reader_writer_bot");
 
 uint32_t timer = millis();
+int counter = 0;
 
 void setup() {
     robot.begin();
@@ -15,7 +15,7 @@ void setup() {
     String someMagicalValueString = String(someMagicalValue);
     String someOtherMagicalValueString = String(someOtherMagicalValue);
 
-    robot.setInitData(someMagicalValueString + "\t" someOtherMagicalValueString);
+    robot.setInitData(someMagicalValueString + "\t" + someOtherMagicalValueString);
 }
 
 void loop() {
@@ -45,8 +45,13 @@ void loop() {
 
     if (!robot.isPaused()) {
         if (timer > millis())  timer = millis();  // reset the timer if there is overflow
-        if ((millis() - ping_timer) > 500) {  // every 0.5 seconds, print the current time in milliseconds
+        if ((millis() - timer) > 500) {  // every 0.5 seconds, print the current time in milliseconds
+            timer = millis();
             Serial.print(millis());
+            Serial.print('\t');
+            Serial.print(counter++);
+            Serial.print('\t');
+            Serial.print(random(0xffff));
             Serial.print('\n');
         }
     }
